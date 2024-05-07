@@ -1,2 +1,7 @@
-const titleCase = (str) =>
-  str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+function singleNumber(nums) {
+  let result = 0;
+  for (const num of nums) {
+    result ^= num;
+  }
+  return result;
+}
