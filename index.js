@@ -1,22 +1,20 @@
-function findOrder(numCourses, prerequisites) {
-  const graph = new Array(numCourses).fill(0).map(() => []);
-  const inDegree = new Array(numCourses).fill(0);
-  for (const [course, pre] of prerequisites) {
-    graph[pre].push(course);
-    inDegree[course]++;
-  }
-  const queue = [];
-  for (let i = 0; i < numCourses; i++) {
-    if (inDegree[i] === 0) queue.push(i);
-  }
-  const result = [];
-  while (queue.length) {
-    const course = queue.shift();
-    result.push(course);
-    for (const nextCourse of graph[course]) {
-      inDegree[nextCourse]--;
-      if (inDegree[nextCourse] === 0) queue.push(nextCourse);
+function calculate(s) {
+  const stack = [];
+  let num = 0;
+  let sign = "+";
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    if (!isNaN(parseInt(char)) && char !== " ") {
+      num = num * 10 + parseInt(char);
+    }
+    if (isNaN(parseInt(char)) || i === s.length - 1) {
+      if (sign === "+") stack.push(num);
+      else if (sign === "-") stack.push(-num);
+      else if (sign === "*") stack.push(stack.pop() * num);
+      else if (sign === "/") stack.push(parseInt(stack.pop() / num));
+      num = 0;
+      sign = char;
     }
   }
-  return result.length === numCourses ? result : [];
+  return stack.reduce((acc, val) => acc + val, 0);
 }
