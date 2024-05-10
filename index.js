@@ -1,20 +1,19 @@
-function calculate(s) {
-  const stack = [];
-  let num = 0;
-  let sign = "+";
-  for (let i = 0; i < s.length; i++) {
-    const char = s[i];
-    if (!isNaN(parseInt(char)) && char !== " ") {
-      num = num * 10 + parseInt(char);
+function combinationSum2(candidates, target) {
+  candidates.sort((a, b) => a - b);
+  const result = [];
+  backtrack([], 0, 0);
+  return result;
+  function backtrack(combination, start, sum) {
+    if (sum === target) {
+      result.push([...combination]);
+      return;
     }
-    if (isNaN(parseInt(char)) || i === s.length - 1) {
-      if (sign === "+") stack.push(num);
-      else if (sign === "-") stack.push(-num);
-      else if (sign === "*") stack.push(stack.pop() * num);
-      else if (sign === "/") stack.push(parseInt(stack.pop() / num));
-      num = 0;
-      sign = char;
+    if (sum > target) return;
+    for (let i = start; i < candidates.length; i++) {
+      if (i > start && candidates[i] === candidates[i - 1]) continue;
+      combination.push(candidates[i]);
+      backtrack(combination, i + 1, sum + candidates[i]);
+      combination.pop();
     }
   }
-  return stack.reduce((acc, val) => acc + val, 0);
 }
