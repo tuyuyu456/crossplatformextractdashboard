@@ -1,13 +1,11 @@
-function lengthOfLongestSubstring(s) {
-  const map = new Map();
-  let maxLength = 0;
-  let left = 0;
-  for (let right = 0; right < s.length; right++) {
-    if (map.has(s[right])) {
-      left = Math.max(left, map.get(s[right]) + 1);
+function generate(numRows) {
+  const triangle = [];
+  for (let i = 0; i < numRows; i++) {
+    const row = new Array(i + 1).fill(1);
+    for (let j = 1; j < row.length - 1; j++) {
+      row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
     }
-    map.set(s[right], right);
-    maxLength = Math.max(maxLength, right - left + 1);
+    triangle.push(row);
   }
-  return maxLength;
+  return triangle;
 }
